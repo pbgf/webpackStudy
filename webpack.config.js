@@ -12,9 +12,29 @@ module.exports={
     // },
     mode:'production',
     entry:'./src/index.js',
+    //1）devtool:'source-map'产生单独的文件
+    //2）devtool:'eval-source-map'不会产生单独的文件，会集成到生成的文件中
+    //3）devtool:'cheap-module-source-map'会产生单独的文件但是不会提示到列
+    //4）devtool:'cheap-module-eval-source-map'不会产生单独的文件 并且也不会提示到列
+    devtool:'source-map',//增加映射文件，当代码出错时，出错文件是映射文件，而不会是打包后的文件
     output:{
         filename:'bundle.[hash].js',//打包后的文件名
+        chunkFilename: 'js/[id].[chunkhash].js',//chunkfile是没有被列出在entry的文件采用的命名方案
         path:path.resolve(__dirname,'dist'),//路径必须是一个绝对路径
+    },
+    devServer:{
+        before(app){//before可以拦截请求 并作响应 app是express生成的 
+            //可以充当简易的 mock
+            app.get('/user',(req,res)=>{
+
+            })
+        },
+        proxy:{
+            '/api':"localhost//:3000",//代理访问 这样不会存在跨域问题
+            pathRewrite:{
+                "^/api":""//把api重写成空
+            }
+        }
     },
     plugins:[
         new HtmlWebpackPLugin({
