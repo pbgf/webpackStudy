@@ -22,6 +22,10 @@ module.exports={
         chunkFilename: 'js/[id].[chunkhash].js',//chunkfile是没有被列出在entry的文件采用的命名方案
         path:path.resolve(__dirname,'dist'),//路径必须是一个绝对路径
     },
+    resolve:{
+        modules:[path.resolve("node_modules")],//告诉 webpack 解析模块时应该搜索的目录。使用绝对路径，将只在给定目录中搜索。
+        mainFields:['style','main']//当从 npm 包中导入模块时（例如，import * as D3 from "d3"），此选项将决定在 package.json 中使用哪个字段导入模块。
+    },
     devServer:{
         before(app){//before可以拦截请求 并作响应 app是express生成的 
             //可以充当简易的 mock
