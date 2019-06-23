@@ -44,8 +44,14 @@ module.exports={
             // 2) providerPlugin
             // 3) 引入不打包方式
             {
+                //当图片小于多少k的时候采用base64 大于这个限制的时候采用真实的图片
                 test:/(\.jpg|\.png)$/,
-                use:'file-loader'
+                use:{
+                    loader:'url-loader',
+                    options:{
+                        limit:1024*200
+                    }
+                }
             },
             {
                 test:/\.css$/,
@@ -60,11 +66,11 @@ module.exports={
                     "css-loader",//css => style
                     "less-loader",//less => css
                 ]},
-                // {
-                //     test: /\.js$/,
-                //     exclude: /node_modules/,
-                //     loader: "eslint-loader"
-                //   },
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    loader: "eslint-loader"
+                  },
             {
                 test:/\.js$/,
                 use:{
