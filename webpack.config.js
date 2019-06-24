@@ -3,6 +3,17 @@ let HtmlWebpackPLugin = require('html-webpack-plugin')
 let MIniCssExtractPlugin = require('mini-css-extract-plugin')
 let optimizeCss=require('optimize-css-assets-webpack-plugin');
 let uglifyJsPlugin=require('uglifyjs-webpack-plugin');
+let  merge = require('webpack-merge');
+//merge插件 是用来合并你的配置文件的 插件
+//你可以 把你的 开发配置 和 生产环境 公共配置 区分开来
+//webpack.dev.js = dev + base   webpack.prod.js = prod +base
+// const devWebpackConfig = merge(baseWebpackConfig, {
+//     devServer:{
+//         proxy:{
+//             "/^api":"localhost//:3000"
+//         }
+//     }
+// });
 module.exports={
     // optimization:{
     //     minimizer:[
@@ -52,6 +63,7 @@ module.exports={
         })
     ],
     module:{//模块
+        noParse:/jquery/,//noParse 可让webpack忽略部分模块的解析 提升打包速度
         rules:[//规则
             //css-loader 解析 css语法  sty-loader 把css插入到head的标签中
             //loader的特点 希望单一
@@ -91,7 +103,7 @@ module.exports={
                     loader:'babel-loader',
                     options:{
                         presets:[
-                            '@babel/preset-env',
+                            '@babel/preset-env',//”presets“配置项来标识如何将ES6语法转成ES5以及如何转换React的JSX成js文件。
                         ],
                         plugins:[
                             "@babel/plugin-transform-runtime"

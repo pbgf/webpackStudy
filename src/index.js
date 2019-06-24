@@ -1,4 +1,5 @@
- require('@babel/polyfill')
+import $ from 'jquery'
+require('@babel/polyfill')
 // // @babel/polyfill
 // // Babel 包含一个polyfill 库。这个库里包含 regenerator 和 core-js.
 // // 这个库将会模拟一个完全的 ES2015+ 的环境。
