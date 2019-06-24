@@ -33,6 +33,10 @@ module.exports={
         chunkFilename: 'js/[id].[chunkhash].js',//chunkfile是没有被列出在entry的文件采用的命名方案
         path:path.resolve(__dirname,'dist'),//路径必须是一个绝对路径
     },
+    resolve:{
+        modules:[path.resolve("node_modules")],//告诉 webpack 解析模块时应该搜索的目录。使用绝对路径，将只在给定目录中搜索。
+        mainFields:['style','main']//当从 npm 包中导入模块时（例如，import * as D3 from "d3"），此选项将决定在 package.json 中使用哪个字段导入模块。
+    },
     devServer:{
         before(app){//before可以拦截请求 并作响应 app是express生成的 
             //可以充当简易的 mock
@@ -76,8 +80,14 @@ module.exports={
             // 2) providerPlugin
             // 3) 引入不打包方式
             {
+                //当图片小于多少k的时候采用base64 大于这个限制的时候采用真实的图片
                 test:/(\.jpg|\.png)$/,
-                use:'file-loader'
+                use:{
+                    loader:'url-loader',
+                    options:{
+                        limit:1024*200
+                    }
+                }
             },
             {
                 test:/\.css$/,
@@ -92,11 +102,11 @@ module.exports={
                     "css-loader",//css => style
                     "less-loader",//less => css
                 ]},
-                // {
-                //     test: /\.js$/,
-                //     exclude: /node_modules/,
-                //     loader: "eslint-loader"
-                //   },
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    loader: "eslint-loader"
+                  },
             {
                 test:/\.js$/,
                 use:{

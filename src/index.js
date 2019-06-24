@@ -33,9 +33,10 @@ require('@babel/polyfill')
 
 //引入图片的方式
 //1) js引入
-import img from './3.jpg'
-let image=document.createElement('img');
-image.src=img;
-document.body.append(image);
+// let img = require('./3.jpg');
+// let image=document.createElement('img');
+// image.src=img;
+// document.body.append(image);
 //2) css引入
 //3) html引入
+require('./index.css')
